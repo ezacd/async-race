@@ -5,6 +5,7 @@
     "main": "webpack.base.config.js",
     "scripts": {
         "start": "webpack serve --open --config ./webpack.config.js --env mode=dev",
+        "start-api": "node index.js",
         "build": "webpack --config ./webpack.config.js --env mode=prod",
         "lint": "eslint . --ext .ts",
         "style": "sass --watch ./sass/style.scss ./sass/style.css"
@@ -38,7 +39,8 @@
         "webpack": "^5.90.1",
         "webpack-cli": "^5.1.4",
         "webpack-dev-server": "^5.0.0",
-        "webpack-merge": "^5.10.0"
+        "webpack-merge": "^5.10.0",
+        "json-server": "^0.16.3"
     },
     "dependencies": {
         "css": "^3.0.0",
