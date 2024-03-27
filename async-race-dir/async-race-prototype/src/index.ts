@@ -1,5 +1,4 @@
+import { start } from "./app/start";
 import "./index.css";
 
-alert(123);
-
-alert(123);
+start();
