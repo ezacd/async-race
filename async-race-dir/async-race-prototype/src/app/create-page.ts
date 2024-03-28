@@ -37,7 +37,7 @@ function createTopButtons() {
   createCarColorInput.value = "#ff0000";
 
   const createCarButton = document.createElement("button");
-  createCarButton.classList.add("update-button", "create-car");
+  createCarButton.classList.add("update-button", "create-car-button");
   createCarButton.textContent = "CREATE";
 
   createCarDiv.appendChild(createCarNameInput);

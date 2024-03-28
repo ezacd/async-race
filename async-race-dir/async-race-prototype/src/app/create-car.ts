@@ -4,18 +4,18 @@ import { Car } from "./interfaces";
 
 function createCar(name: string, color: string, id: number) {
   const car = document.createElement("div");
-  car.classList.add("car");
+  car.classList.add("car", `car${id}`);
 
   const buttonsDiv = document.createElement("div");
   buttonsDiv.classList.add("buttons");
   car.appendChild(buttonsDiv);
 
   const selectButton = document.createElement("button");
-  selectButton.classList.add("update-button", "race");
+  selectButton.classList.add("update-button", "select");
   selectButton.textContent = "SELECT";
 
   const removeButton = document.createElement("button");
-  removeButton.classList.add("update-button", "reset");
+  removeButton.classList.add("update-button", "remove");
   removeButton.textContent = "REMOVE";
 
   const raceCarNameDiv = document.createElement("div");
@@ -64,6 +64,14 @@ function createCar(name: string, color: string, id: number) {
   if (carColor) {
     carColor.setAttribute("fill", color);
   }
+
+  selectButton.addEventListener("click", function () {
+    selectCar(id);
+  });
+
+  removeButton.addEventListener("click", function () {
+    removeCar(id);
+  });
 }
 
 export function addCars() {
@@ -79,4 +87,53 @@ export function addCars() {
     });
 }
 
-function addNewCar() {}
+export function addNewCar() {
+  const nameInput = document.querySelector(".car-name") as HTMLInputElement;
+  const name = nameInput ? nameInput.value : null;
+
+  const colorInput = document.querySelector(
+    ".create-car-color"
+  ) as HTMLInputElement;
+  const color = colorInput ? colorInput.value : null;
+
+  const url = "http://127.0.0.1:3000/garage";
+  const data = {
+    name: name,
+    color: color,
+  };
+
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      createCar(data.name, data.color, data.id);
+    })
+    .catch((error) => {
+      console.error("Ошибка:", error);
+    });
+}
+
+function selectCar(id: number) {
+  alert("select" + id);
+}
+
+function removeCar(id: number) {
+  const url = `http://127.0.0.1:3000/garage/${id}`;
+
+  fetch(url, {
+    method: "DELETE",
+  })
+    .then((response) => {
+      if (response.ok) {
+        document.querySelector(`.car${id}`)?.remove();
+      }
+    })
+    .catch((error) => {
+      console.error("Произошла ошибка:", error);
+    });
+}
