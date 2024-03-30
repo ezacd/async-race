@@ -65,7 +65,7 @@ function createCar(name: string, color: string, id: number) {
   }
 
   selectButton.addEventListener("click", function () {
-    selectCar(id);
+    selectCar(id).catch((error) => console.error(error));
   });
 
   removeButton.addEventListener("click", function () {
@@ -120,8 +120,81 @@ export function addNewCar() {
     });
 }
 
-function selectCar(id: number) {
-  alert("select" + id);
+async function selectCar(id: number) {
+  const nameInput = document.getElementById(
+    "update-car-name"
+  ) as HTMLInputElement;
+  const colorInput = document.querySelector(
+    ".update-car-color"
+  ) as HTMLInputElement;
+  const updateButton = document.querySelector(".update-car-button");
+
+  try {
+    const carData = await getCar(id);
+    if (carData) {
+      nameInput.value = carData.name;
+      colorInput.value = carData.color;
+      updateButton?.addEventListener("click", function () {
+        updateCar(id);
+      });
+    } else {
+      console.error("Данные об автомобиле не найдены");
+    }
+  } catch (error) {
+    console.error("Произошла ошибка:", error);
+  }
+}
+
+function updateCar(id: number) {
+  const updateButton = document.querySelector(".update-car-button");
+
+  if (updateButton) {
+    removeAllEventListeners(updateButton);
+  }
+
+  const nameInput = document.getElementById(
+    "update-car-name"
+  ) as HTMLInputElement;
+  const name = nameInput ? nameInput.value : null;
+
+  const colorInput = document.querySelector(
+    ".update-car-color"
+  ) as HTMLInputElement;
+  const color = colorInput ? colorInput.value : null;
+
+  const url = `http://127.0.0.1:3000/garage/${id}`;
+  const data = { name, color };
+
+  fetch(url, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => {
+      if (response.ok) {
+        const carName = document
+          .querySelector(`.car${id}`)
+          ?.querySelector(".race-car-name");
+
+        const carColor = document
+          .querySelector(`.car${id}`)
+          ?.querySelector(".svg-car-color") as HTMLElement;
+
+        if (carName && carColor) {
+          carName.textContent = name;
+          carColor.style.fill = color!;
+        }
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error("Произошла ошибка:", error);
+    });
 }
 
 function removeCar(id: number) {
@@ -138,4 +211,24 @@ function removeCar(id: number) {
     .catch((error) => {
       console.error("Произошла ошибка:", error);
     });
+}
+
+function removeAllEventListeners(element: Element) {
+  const clone = element.cloneNode(true);
+  element.parentNode?.replaceChild(clone, element);
+}
+
+async function getCar(id: number): Promise<Car> {
+  const url = `http://127.0.0.1:3000/garage/${id}`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Ошибка получения данных об автомобиле");
+    }
+    return (await response.json()) as Car;
+  } catch (error) {
+    console.error("Произошла ошибка:", error);
+    return {} as Car;
+  }
 }
