@@ -1,5 +1,4 @@
-import { createFlag } from "./svg-loaders/create-svg";
-import { createNewCar } from "./svg-loaders/create-svg";
+import { createFlag, createNewCar } from "./svg-loaders/create-svg";
 import { Car } from "./interfaces";
 
 function createCar(name: string, color: string, id: number) {
@@ -84,6 +83,9 @@ export function addCars() {
       data.forEach((car) => {
         createCar(car.name, car.color, car.id);
       });
+    })
+    .catch((error) => {
+      console.error(error);
     });
 }
 
@@ -98,8 +100,8 @@ export function addNewCar() {
 
   const url = "http://127.0.0.1:3000/garage";
   const data = {
-    name: name,
-    color: color,
+    name,
+    color,
   };
 
   fetch(url, {
@@ -110,7 +112,7 @@ export function addNewCar() {
     body: JSON.stringify(data),
   })
     .then((response) => response.json())
-    .then((data) => {
+    .then((data: Car) => {
       createCar(data.name, data.color, data.id);
     })
     .catch((error) => {

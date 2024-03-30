@@ -115,7 +115,6 @@ function createGarage() {
   addCars();
 }
 
-
 export function createField() {
   createTopButtons();
   createGarage();
