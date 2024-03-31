@@ -1,4 +1,4 @@
-import { Engine } from "./interfaces";
+import { Engine, Car } from "./interfaces";
 
 export function startEngine(id: number) {
   const car = document.querySelector(`.car${id}`);
@@ -59,7 +59,7 @@ function animation(data: Engine, id: number) {
   drive(id, stopCar);
 }
 
-function drive(id: number, stopCar: () => void) {
+function drive(id: number, stopCar?: () => void) {
   const url = `http://127.0.0.1:3000/engine?id=${id}&status=drive`;
   const options = {
     method: "PATCH",
@@ -70,7 +70,7 @@ function drive(id: number, stopCar: () => void) {
 
   fetch(url, options)
     .then((response) => {
-      if (response.status === 500) {
+      if (response.status === 500 && stopCar) {
         stopCar();
       }
       return response.json();
@@ -93,4 +93,36 @@ export function backCar(id: number) {
 
   car?.querySelector(".A")?.classList.remove("not-active");
   car?.querySelector(".B")?.classList.add("not-active");
+}
+
+export function raceAll() {
+  const json = fetch("http://127.0.0.1:3000/garage");
+  json
+    .then((res) => {
+      return res.json();
+    })
+    .then((data: Car[]) => {
+      data.forEach((car) => {
+        startEngine(car.id);
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+export function resetAll() {
+  const json = fetch("http://127.0.0.1:3000/garage");
+  json
+    .then((res) => {
+      return res.json();
+    })
+    .then((data: Car[]) => {
+      data.forEach((car) => {
+        backCar(car.id);
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 }
