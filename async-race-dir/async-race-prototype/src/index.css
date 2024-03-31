@@ -92,13 +92,18 @@ body {
 
 .B {
   background: rgb(31, 31, 31);
-  border: 1.5px solid rgb(77, 77, 77);
+  border: 1.5px solid red;
   border-radius: 5px;
   height: 30px;
 
-  color: rgb(77, 77, 77);
+  color: red;
   font-family: "Inter", sans-serif;
   font-size: 15px;
+}
+
+.not-active {
+  border: 1.5px solid rgb(77, 77, 77);
+  color: rgb(77, 77, 77);
 }
 
 .road {

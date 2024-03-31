@@ -1,5 +1,6 @@
 import { createFlag, createNewCar } from "./svg-loaders/create-svg";
 import { Car } from "./interfaces";
+import { startEngine, backCar } from "./race";
 
 function createCar(name: string, color: string, id: number) {
   const car = document.createElement("div");
@@ -34,7 +35,7 @@ function createCar(name: string, color: string, id: number) {
   aButton.textContent = "A";
 
   const bButton = document.createElement("button");
-  bButton.classList.add("B");
+  bButton.classList.add("B", "not-active");
   bButton.textContent = "B";
 
   engineButtonsDiv.appendChild(aButton);
@@ -70,6 +71,14 @@ function createCar(name: string, color: string, id: number) {
 
   removeButton.addEventListener("click", function () {
     removeCar(id);
+  });
+
+  aButton.addEventListener("click", function () {
+    startEngine(id);
+  });
+
+  bButton.addEventListener("click", function () {
+    backCar(id);
   });
 }
 
