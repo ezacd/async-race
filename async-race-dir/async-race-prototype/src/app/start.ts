@@ -6,5 +6,7 @@ export function start() {
 
   const createCarButton = document.querySelector(".create-car-button");
 
-  createCarButton?.addEventListener("click", addNewCar);
+  createCarButton?.addEventListener("click", function() {
+    addNewCar();
+  });
 }

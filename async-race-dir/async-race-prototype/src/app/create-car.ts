@@ -83,6 +83,12 @@ function createCar(name: string, color: string, id: number) {
 }
 
 export function addCars() {
+  const garage = document.querySelector(".race__cars");
+
+  if (garage) {
+    garage.innerHTML = "";
+  }
+
   const json = fetch("http://127.0.0.1:3000/garage");
   json
     .then((res) => {
@@ -98,14 +104,21 @@ export function addCars() {
     });
 }
 
-export function addNewCar() {
-  const nameInput = document.querySelector(".car-name") as HTMLInputElement;
-  const name = nameInput ? nameInput.value : null;
+export function addNewCar(model?: string, carColor?: string) {
+  let name;
+  let color;
+  if (model && carColor) {
+    name = model;
+    color = carColor;
+  } else {
+    const nameInput = document.querySelector(".car-name") as HTMLInputElement;
+    name = nameInput ? nameInput.value : null;
 
-  const colorInput = document.querySelector(
-    ".create-car-color"
-  ) as HTMLInputElement;
-  const color = colorInput ? colorInput.value : null;
+    const colorInput = document.querySelector(
+      ".create-car-color"
+    ) as HTMLInputElement;
+    color = colorInput ? colorInput.value : null;
+  }
 
   const url = "http://127.0.0.1:3000/garage";
   const data = {

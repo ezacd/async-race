@@ -1,4 +1,6 @@
 import { Engine, Car } from "./interfaces";
+import { brand, model } from "./car-models";
+import { addNewCar } from "./create-car";
 
 export function startEngine(id: number) {
   const car = document.querySelector(`.car${id}`);
@@ -125,4 +127,27 @@ export function resetAll() {
     .catch((error) => {
       console.error(error);
     });
+}
+
+export function generateCars() {
+  for (let i = 0; i < 100; i++) {
+    const name =
+      brand[Math.floor(Math.random() * brand.length)] +
+      " " +
+      model[Math.floor(Math.random() * model.length)];
+
+    const color = getRandomHexColor();
+
+    addNewCar(name, color);
+  }
+}
+
+function getRandomHexColor() {
+  const red = Math.floor(Math.random() * 256);
+  const green = Math.floor(Math.random() * 256);
+  const blue = Math.floor(Math.random() * 256);
+
+  const hexColor = `#${red.toString(16)}${green.toString(16)}${blue.toString(16)}`;
+
+  return hexColor;
 }
