@@ -169,9 +169,12 @@ export function createWinnersTable(): void {
   winnersDiv.appendChild(winnersTable);
 
   document.querySelector(".game")?.appendChild(winnersDiv);
+
+  toGarageButton.addEventListener("click", createField);
 }
 
 export function createField() {
+  document.body.innerHTML = "";
   createTopButtons();
   createGarage();
 }
