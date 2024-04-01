@@ -1,6 +1,7 @@
 import { Engine, Car } from "./interfaces";
 import { brand, model } from "./car-models";
 import { addNewCar } from "./create-car";
+import { winner } from "./winners";
 
 export function startEngine(id: number) {
   const car = document.querySelector(`.car${id}`);
@@ -50,9 +51,17 @@ function animation(data: Engine, id: number) {
     }
     if (progress / raceTime < roadWidth && !stop) {
       window.requestAnimationFrame(step);
+    } else if (stop) {
+      setTime(null, id);
+    } else {
+      setTime((timestamp - start) / 1000, id);
     }
   }
   window.requestAnimationFrame(step);
+
+  function setTime(time: number | null, id: number) {
+    winner(time, id);
+  }
 
   function stopCar() {
     stop = true;

@@ -1,5 +1,6 @@
 import { addCars } from "./create-car";
 import { generateCars, raceAll, resetAll } from "./race";
+import { getWinners } from "./winners";
 
 function createTopButtons() {
   const gameSection = document.createElement("section");
@@ -95,6 +96,7 @@ function createTopButtons() {
   raceButton.addEventListener("click", raceAll);
   resetButton.addEventListener("click", resetAll);
   generateButton.addEventListener("click", generateCars);
+  toWinnersButton.addEventListener("click", getWinners);
 }
 
 function createGarage() {
