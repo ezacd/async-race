@@ -17,7 +17,7 @@ const baseConfig = {
         test: /\.tsx?$/,
         use: "ts-loader",
         exclude: /node_modules/
-      }
+      },
     ]
   },
   resolve: {

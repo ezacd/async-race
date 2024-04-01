@@ -1,3 +1,170 @@
 body {
-  background-color: red;
+  background: rgb(31, 31, 31);
+}
+
+.game {
+  margin: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.top-navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.buttons {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.manage-button {
+  background-color: rgb(79, 116, 24);
+  border: 1px solid black;
+  border-radius: 5px;
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+}
+
+.update-button {
+  background-color: rgb(31, 142, 145);
+  border: 1px solid black;
+  border-radius: 5px;
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+}
+
+.car-name {
+  height: 20px;
+  background-color: rgb(160, 160, 140);
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.race {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.garage-h2 {
+  color: white;
+  font-family: "Inter", sans-serif;
+  margin: 0;
+}
+
+.page-h3 {
+  color: white;
+  font-family: "Inter", sans-serif;
+  margin: 0;
+}
+
+.race__cars {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.race-car-name {
+  color: white;
+  font-family: "Inter", sans-serif;
+  margin: 0;
+}
+
+.engine-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.A {
+  background: rgb(31, 31, 31);
+  border: 1.5px solid green;
+  border-radius: 5px;
+  height: 30px;
+
+  color: green;
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+}
+
+.B {
+  background: rgb(31, 31, 31);
+  border: 1.5px solid red;
+  border-radius: 5px;
+  height: 30px;
+
+  color: red;
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+}
+
+.not-active {
+  border: 1.5px solid rgb(77, 77, 77);
+  color: rgb(77, 77, 77);
+}
+
+.road {
+  border-bottom: 5px dashed white;
+  margin-top: 30px;
+}
+
+button {
+  transition: 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+
+.flag {
+  width: 45px;
+  height: 45px;
+
+  position: absolute;
+  right: 100px;
+  bottom: 15px;
+}
+
+.car {
+  position: relative;
+}
+
+.svg-car {
+  width: 100px;
+  height: 100px;
+
+  position: absolute;
+  left: 60px;
+  top: 15px;
+}
+
+.winners {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+table {
+  border-collapse: collapse;
+  border: 3px solid white;
+}
+
+th, td {
+  border: 2px solid white;
+  padding: 20px;
+  text-align: center;
+
+  color: white;
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+
+  position: relative;
+}
+
+td .svg-car {
+  left: 10px;
+  top: -20px;
 }

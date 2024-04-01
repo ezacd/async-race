@@ -28,7 +28,6 @@ module.exports = {
     quotes: ["error", "double"],
     semi: ["error", "always"],
     indent: ["error", 2],
-    "no-console": "error",
     "space-before-function-paren": "off",
     "comma-dangle": "off",
   },
