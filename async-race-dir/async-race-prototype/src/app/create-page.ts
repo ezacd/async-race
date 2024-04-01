@@ -1,6 +1,6 @@
 import { addCars } from "./create-car";
 import { generateCars, raceAll, resetAll } from "./race";
-import { getWinners } from "./winners";
+import { winners } from "./winners";
 
 function createTopButtons() {
   const gameSection = document.createElement("section");
@@ -96,7 +96,9 @@ function createTopButtons() {
   raceButton.addEventListener("click", raceAll);
   resetButton.addEventListener("click", resetAll);
   generateButton.addEventListener("click", generateCars);
-  toWinnersButton.addEventListener("click", getWinners);
+  toWinnersButton.addEventListener("click", function () {
+    winners();
+  });
 }
 
 function createGarage() {
@@ -120,6 +122,53 @@ function createGarage() {
   document.querySelector(".game")?.appendChild(raceDiv);
 
   addCars();
+}
+
+export function createWinnersTable(): void {
+  const winnersDiv = document.createElement("div");
+  winnersDiv.classList.add("winners");
+
+  const buttonsDiv = document.createElement("div");
+  buttonsDiv.classList.add("buttons");
+
+  const toGarageButton = document.createElement("button");
+  toGarageButton.classList.add("manage-button", "to-garage");
+  toGarageButton.textContent = "TO GARAGE";
+
+  const toWinnersButton = document.createElement("button");
+  toWinnersButton.classList.add("manage-button", "to-winners");
+  toWinnersButton.textContent = "TO WINNERS";
+
+  buttonsDiv.appendChild(toGarageButton);
+  buttonsDiv.appendChild(toWinnersButton);
+
+  const garageHeader = document.createElement("h2");
+  garageHeader.classList.add("garage-h2");
+  garageHeader.textContent = "Winners";
+
+  const pageHeader = document.createElement("h3");
+  pageHeader.classList.add("page-h3");
+  pageHeader.textContent = "Page #1";
+
+  const winnersTable = document.createElement("table");
+  winnersTable.classList.add("winners__table");
+
+  const tableHeader = document.createElement("tr");
+  const headers = ["Number", "Car", "Name", "Wins", "Best time"];
+  headers.forEach((headerText) => {
+    const th = document.createElement("th");
+    th.textContent = headerText;
+    tableHeader.appendChild(th);
+  });
+
+  winnersTable.appendChild(tableHeader);
+
+  winnersDiv.appendChild(buttonsDiv);
+  winnersDiv.appendChild(garageHeader);
+  winnersDiv.appendChild(pageHeader);
+  winnersDiv.appendChild(winnersTable);
+
+  document.querySelector(".game")?.appendChild(winnersDiv);
 }
 
 export function createField() {

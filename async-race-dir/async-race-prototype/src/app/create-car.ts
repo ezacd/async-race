@@ -240,7 +240,7 @@ function removeAllEventListeners(element: Element) {
   element.parentNode?.replaceChild(clone, element);
 }
 
-async function getCar(id: number): Promise<Car> {
+export async function getCar(id: number): Promise<Car> {
   const url = `http://127.0.0.1:3000/garage/${id}`;
 
   try {

@@ -1,7 +1,10 @@
 import { Winner } from "./interfaces";
+import { createWinnersTable } from "./create-page";
+import { getCar } from "./create-car";
+import { createNewCar } from "./svg-loaders/create-svg";
 
-export function getWinners() {
-  const url = "http://127.0.0.1:3000/winners";
+function getWinners(sort: "wins" | "time"): Promise<Winner[]> {
+  const url = `http://127.0.0.1:3000/winners?_sort=${sort}&_order=ASC`;
 
   const options = {
     method: "GET",
@@ -10,18 +13,16 @@ export function getWinners() {
     },
   };
 
-  fetch(url, options)
+  return fetch(url, options)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Ошибка сети");
       }
-      return response.json();
-    })
-    .then((data) => {
-      console.log("Данные получены:", data);
+      return response.json() as Promise<Winner[]>;
     })
     .catch((error) => {
       console.error("Произошла ошибка:", error);
+      return [];
     });
 }
 
@@ -74,7 +75,6 @@ async function updateWinner(time: number | null, id: number) {
     }
 
     if (time && lastTime && lastTime > time) {
-      console.log(time);
       lastTime = time;
     }
 
@@ -158,4 +158,56 @@ function getWinner(id: number): Promise<Winner> {
       console.error("Произошла ошибка:", error);
       return {} as Winner;
     });
+}
+
+export function winners() {
+  const game = document.querySelector(".game");
+  if (game) {
+    game.innerHTML = "";
+  }
+
+  createWinnersTable();
+
+  getWinners("time")
+    .then((data) => {
+      return addWinnerAtTable(data);
+    })
+    .catch((error) => {
+      console.error("Произошла ошибка при получении данных:", error);
+    });
+}
+
+function addWinnerAtTable(data: Winner[]) {
+  let i = 0;
+  for (const winner of data) {
+    getCar(winner.id)
+      .then((data) => {
+        i++;
+        const winnersTable = document.querySelector(".winners__table");
+        const rowData = [
+          ["" + i, "car_img", data.name, "" + winner.wins, "" + winner.time],
+        ];
+
+        const rows = rowData.map((row) => {
+          const tr = document.createElement("tr");
+          row.forEach((cellText) => {
+            const td = document.createElement("td");
+            if (cellText === "car_img") {
+              td.innerHTML = createNewCar();
+              const color = td.querySelector(".svg-car-color") as HTMLElement;
+              color.style.fill = data.color;
+            } else {
+              td.textContent = cellText;
+            }
+            tr.appendChild(td);
+          });
+          return tr;
+        });
+
+        rows.forEach((row) => winnersTable?.appendChild(row));
+      })
+      .catch((error) => {
+        console.error("Произошла ошибка при получении данных о машине:", error);
+      });
+  }
 }
